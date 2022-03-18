@@ -1,16 +1,22 @@
-import { Stack, StackProps } from 'aws-cdk-lib';
-import { Construct } from 'constructs';
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
+import { Stack, StackProps } from 'aws-cdk-lib'
+import { Construct } from 'constructs'
+import * as path from "path";
+import * as lambda from 'aws-cdk-lib/aws-lambda'
+import * as nodeLambda from 'aws-cdk-lib/aws-lambda-nodejs'
 
 export class LambdaLocalSamStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
-    super(scope, id, props);
+    super(scope, id, props)
 
-    // The code that defines your stack goes here
+    new nodeLambda.NodejsFunction(this, 'MyTypeScriptFunction', {
+      entry: path.join(__dirname, '../lambda/index.ts'),
+      handler: 'handler',
+    })
 
-    // example resource
-    // const queue = new sqs.Queue(this, 'LambdaLocalSamQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
+    new lambda.Function(this, 'MyPythonFunction', {
+      runtime: lambda.Runtime.PYTHON_3_7,
+      handler: 'app.lambda_handler',
+      code: lambda.Code.fromAsset('./lambda'),
+    })
   }
 }

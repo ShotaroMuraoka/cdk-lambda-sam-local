@@ -1,14 +1,13 @@
-# Welcome to your CDK TypeScript project!
+# CDK Lambda SAM Local
 
-This is a blank project for TypeScript development with CDK.
+## Requirement
+* SAM CLI, version 1.40.1
+* CDK 2.2.0 (build 4f5c27c)
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+## Usage
 
-## Useful commands
-
- * `npm run build`   compile typescript to js
- * `npm run watch`   watch for changes and compile
- * `npm run test`    perform the jest unit tests
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk synth`       emits the synthesized CloudFormation template
+```bash
+cdk synth --no-staging
+sam local invoke MyTypeScriptFunction --no-event -t ./cdk.out/LambdaLocalSamStack.template.json
+sam local invoke MyPythonFunction --no-event -t ./cdk.out/LambdaLocalSamStack.template.json
+```
